@@ -9,13 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('notes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+    public function up()
+{
+    Schema::create('notes', function (Blueprint $table) {
+        $table->id();
+        $table->text('content');
+        $table->unsignedBigInteger('user_id'); // Clé étrangère pour relier la note à un utilisateur
+        $table->timestamps();
+
+        // Définition de la contrainte de clé étrangère
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+    });
+}
+
 
     /**
      * Reverse the migrations.
