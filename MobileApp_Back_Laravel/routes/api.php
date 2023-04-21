@@ -30,16 +30,16 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 
 // Gestion Notes
-use App\Http\Controllers\NoteController;
+use App\Http\Controllers\NotesController;
 
 // Route pour récupérer les notes
-Route::middleware('auth:sanctum')->get('/notes', [NoteController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/notes', [NotesController::class, 'index']);
 
 // Route pour créer une nouvelle note
-Route::middleware('auth:sanctum')->post('/notes', [NoteController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/notes', [NotesController::class, 'store']);
 
 // Route pour supprimer une note
-Route::middleware('auth:sanctum')->delete('/notes/{id}', [NoteController::class, 'destroy']);
+Route::middleware('auth:sanctum')->delete('/notes/{id}', [NotesController::class, 'destroy']);
 
 
 
