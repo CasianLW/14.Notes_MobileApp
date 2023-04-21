@@ -14,6 +14,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Gestion auth
+use App\Http\Controllers\AuthController;
+
+// Route pour l'inscription
+Route::post('/register', [AuthController::class, 'register']);
+
+// Route pour la connexion
+Route::post('/login', [AuthController::class, 'login']);
+
+// Route pour la déconnexion
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+
+
+
+// Gestion Notes
+use App\Http\Controllers\NoteController;
+
+// Route pour récupérer les notes
+Route::middleware('auth:sanctum')->get('/notes', [NoteController::class, 'index']);
+
+// Route pour créer une nouvelle note
+Route::middleware('auth:sanctum')->post('/notes', [NoteController::class, 'store']);
+
+// Route pour supprimer une note
+Route::middleware('auth:sanctum')->delete('/notes/{id}', [NoteController::class, 'destroy']);
+
+
+
+
+
+// middelware
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
