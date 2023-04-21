@@ -32,6 +32,25 @@ class NotesController extends Controller
         return response()->json(['note' => $note]);
     }
 
+    
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+    
+        $user = Auth::user();
+        $note = Note::where('id', $id)->where('user_id', $user->id)->first();
+    
+        if ($note) {
+            $note->content = $request->content;
+            $note->save();
+            return response()->json(['note' => $note]);
+        }
+    
+        return response()->json(['error' => 'Note introuvable :('], 404);
+    }
+
     public function destroy($id)
     {
         $user = Auth::user();
