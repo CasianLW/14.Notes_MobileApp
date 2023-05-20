@@ -15,11 +15,11 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 400);
+            return response()->json(['error' => $validator->errors()], 422);
         }
 
         $user = User::create([
@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('authToken')->plainTextToken;
 
-        return response()->json(['user' => $user, 'token' => $token], 201);
+        return response()->json(['user' => $user, 'token' => $token], 200);
 
     }
 
@@ -51,10 +51,15 @@ class AuthController extends Controller
     return response()->json(['user' => $user, 'token' => $token]);
 }
 
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json(['message' => 'Deconnexion réussie !']);
+public function logout(Request $request)
+{
+    if(!$request->user()){
+        return response()->json(['error' => 'Non-authenticated user'], 401);
     }
+    
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json(['message' => 'Deconnexion réussie !']);
+}
+
 }
