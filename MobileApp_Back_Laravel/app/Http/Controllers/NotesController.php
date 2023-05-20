@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class NotesController extends Controller
 {
@@ -18,9 +19,13 @@ class NotesController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'content' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
 
         $user = Auth::user();
 
@@ -35,19 +40,23 @@ class NotesController extends Controller
     
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'content' => 'required|string',
         ]);
-    
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+
         $user = Auth::user();
         $note = Note::where('id', $id)->where('user_id', $user->id)->first();
-    
+
         if ($note) {
             $note->content = $request->content;
             $note->save();
             return response()->json(['note' => $note], 200);
         }
-    
+
         return response()->json(['error' => 'Note introuvable :('], 404);
     }
 
