@@ -11,28 +11,33 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255',
+        'password' => 'required|string|min:8',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
+    if ($validator->fails()) {
+        // if email already exists, return a 409
+        if (User::where('email', $request->email)->exists()) {
+            return response()->json(['error' => ['email' => ['The email has already been taken.']]], 409);
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        $token = $user->createToken('authToken')->plainTextToken;
-
-        return response()->json(['user' => $user, 'token' => $token], 200);
-
+        return response()->json(['error' => $validator->errors()], 422);
     }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    $token = $user->createToken('authToken')->plainTextToken;
+
+    return response()->json(['user' => $user, 'token' => $token], 200); 
+}
+
 
     public function login(Request $request)
 {
