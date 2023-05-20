@@ -20,15 +20,14 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NotesController;
 
 // Route pour l'inscription
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/auth/register', [AuthController::class, 'register']);
 
 // Route pour la connexion
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/auth/login', [AuthController::class, 'login']);
 
-// Routes protégées par le middleware 'auth:sanctum'
+// Route pour la déconnexion
 Route::middleware('auth:sanctum')->group(function () {
-    // Route pour la déconnexion
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     // Route pour récupérer les notes
     Route::get('/notes', [NotesController::class, 'index']);
@@ -47,3 +46,5 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 });
+
+Route::delete('reset', [\App\Http\Controllers\ResetController::class, 'reset']);
