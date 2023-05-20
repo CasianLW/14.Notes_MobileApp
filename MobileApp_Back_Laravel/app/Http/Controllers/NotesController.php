@@ -29,7 +29,7 @@ class NotesController extends Controller
         $note->user_id = $user->id;
         $note->save();
 
-        return response()->json(['note' => $note]);
+        return response()->json(['note' => $note], 201);
     }
 
     
@@ -45,7 +45,7 @@ class NotesController extends Controller
         if ($note) {
             $note->content = $request->content;
             $note->save();
-            return response()->json(['note' => $note]);
+            return response()->json(['note' => $note], 200);
         }
     
         return response()->json(['error' => 'Note introuvable :('], 404);
@@ -58,7 +58,8 @@ class NotesController extends Controller
 
         if ($note) {
             $note->delete();
-            return response()->json(['message' => 'Note supprimée !']);
+            return response()->json(['message' => 'Note supprimée !'], 204);
+
         }
 
         return response()->json(['error' => 'Note introuvable :('], 404);
