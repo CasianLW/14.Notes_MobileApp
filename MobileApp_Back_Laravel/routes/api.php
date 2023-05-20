@@ -29,6 +29,9 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+    // Récuperer une note specifique
+    Route::get('/notes/{id}', [NotesController::class, 'show']);
+
     // Route pour récupérer les notes
     Route::get('/notes', [NotesController::class, 'index']);
 
