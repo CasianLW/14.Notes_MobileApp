@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Validator;
 
 class NotesController extends Controller
 {
+    public function show($id)
+{
+    $user = Auth::user();
+    $note = Note::where('id', $id)->where('user_id', $user->id)->first();
+
+    if ($note) {
+        return response()->json(['note' => $note], 200);
+    }
+
+    return response()->json(['error' => 'Note introuvable :('], 404);
+}
     public function index()
     {
         $user = Auth::user();
