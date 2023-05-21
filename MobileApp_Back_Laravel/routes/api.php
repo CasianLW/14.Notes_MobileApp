@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/notes/{id}', [NotesController::class, 'update']);
 
     // Route pour récupérer l'utilisateur actuellement authentifié
-    Route::get('/user', function (Request $request) {
+    Route::get('/auth/user', function (Request $request) {
         return $request->user();
     });
 });
