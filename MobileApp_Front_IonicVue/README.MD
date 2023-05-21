@@ -15,3 +15,4 @@
 1. `ionic start` to start project (vue/tabs)
 2. Configure router & empty .vues for pages
 3. Design of App.vue for navigation (&auth logic)
+4. Link pinia to project and create the stores/auth.js that will be needed inside menu (App.vue), import it into it to make the logic work
