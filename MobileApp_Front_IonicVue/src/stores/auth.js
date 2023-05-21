@@ -21,7 +21,7 @@ export const useAuthStore = defineStore("auth", {
         const user = response.data;
 
         this.loggedIn = true;
-        this.user = user;
+        this.user = user.user;
         localStorage.setItem("token", user.token);
       } catch (error) {
         throw error;
@@ -38,11 +38,17 @@ export const useAuthStore = defineStore("auth", {
         });
 
         const user = response.data;
-        console.log(user);
+        console.log(user.user);
+        console.log(this.loggedIn);
 
         this.loggedIn = true;
-        this.user = user;
+
+        this.user = user.user;
         localStorage.setItem("token", user.token);
+        console.log(this.loggedIn);
+
+        console.log("user");
+        console.log(this.user);
       } catch (error) {
         throw error;
       }
