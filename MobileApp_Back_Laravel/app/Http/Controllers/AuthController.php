@@ -68,7 +68,7 @@ public function logout(Request $request)
     
     $request->user()->currentAccessToken()->delete();
 
-    return response()->json(['message' => 'Deconnexion réussie !']);
+    return response()->json(['message' => 'Deconnexion réussie !'],204);
 }
 
 }
