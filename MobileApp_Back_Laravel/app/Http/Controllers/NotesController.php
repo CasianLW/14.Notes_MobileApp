@@ -24,12 +24,12 @@ class NotesController extends Controller
     {
         $user = Auth::user();
         $notes = Note::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
-        
+
         if ($notes->isEmpty()) {
             return response()->json([], 200); // Return an empty array if there are no notes
         }
 
-        return response()->json(['notes' => $notes]);
+        return response()->json(['notes' => $notes->toArray()]);
     }
 
     public function store(Request $request)
