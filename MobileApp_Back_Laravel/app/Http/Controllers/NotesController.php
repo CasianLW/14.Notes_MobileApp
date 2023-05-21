@@ -15,7 +15,9 @@ class NotesController extends Controller
     $note = Note::where('id', $id)->where('user_id', $user->id)->first();
 
     if ($note) {
-        return response()->json(['note' => $note], 200);
+        return $note;
+        // return response()->json(['note' => $note], 200);
+
     }
 
     return response()->json(['error' => 'Note introuvable :('], 404);
@@ -49,7 +51,10 @@ class NotesController extends Controller
         $note->user_id = $user->id;
         $note->save();
 
-        return response()->json(['note' => $note], 200);
+        $note->refresh();
+
+        return $note;
+        // return response()->json(['note' => $note], 201);
     }
 
     
@@ -69,10 +74,12 @@ class NotesController extends Controller
         if ($note) {
             $note->content = $request->input('content');
             $note->save();
-            return response()->json(['note' => $note], 200);
+            return $note;
+
+            // return response()->json(['note' => $note], 200);
         }
 
-        return response()->json(['error' => 'Note introuvable :('], 404);
+        return response()->json(['error' => 'Note introuvable :('], 403);
     }
 
     public function destroy($id)
@@ -86,6 +93,6 @@ class NotesController extends Controller
 
         }
 
-        return response()->json(['error' => 'Note introuvable :('], 404);
+        return response()->json(['error' => 'Note introuvable :('], 403);
     }
 }
