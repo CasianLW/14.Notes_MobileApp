@@ -1,10 +1,10 @@
 <template>
-    <div v-if="error">
-        <div v-for="e in errors" class="error">
-          {{ e.$property }}: {{ e.$message }}
-        </div>
-        <br>
-      </div>
+  <div v-if="error">
+    <div v-for="e in errors" class="error" :key="e.$property">
+      {{ e.$property }}: {{ e.$message }}
+    </div>
+    <br />
+  </div>
 </template>
 
 <style scoped>
@@ -13,9 +13,25 @@
 }
 </style>
 
-<script>
-export default {
-    name: "Error",
-    props: ["error", "errors"]
+<script lang="ts">
+import { defineComponent } from "vue";
+
+interface ErrorObject {
+  $property: string;
+  $message: string;
 }
+
+export default defineComponent({
+  name: "Error",
+  props: {
+    error: {
+      type: Boolean,
+      required: true,
+    },
+    errors: {
+      type: Array as () => ErrorObject[],
+      required: true,
+    },
+  },
+});
 </script>
