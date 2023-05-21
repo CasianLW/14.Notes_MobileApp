@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-const apiUrl = "https://api-app-notes-ajvs.onrender.com/";
+const apiUrl = "https://api-app-notes-ajvs.onrender.com";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
@@ -11,7 +11,7 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async register(username, email, password) {
       try {
-        const response = await axios.post(apiUrl, {
+        const response = await axios.post(`${apiUrl}/api/auth/register`, {
           email: email,
           password: password,
           username: username,
@@ -28,13 +28,17 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async login(email, password) {
+      console.log(email);
+      console.log(password);
+
       try {
-        const response = await axios.post(apiUrl, {
+        const response = await axios.post(`${apiUrl}/api/auth/login`, {
           email: email,
           password: password,
         });
 
         const user = response.data;
+        console.log(user);
 
         this.loggedIn = true;
         this.user = user;
@@ -50,7 +54,7 @@ export const useAuthStore = defineStore("auth", {
 
       try {
         await axios.post(
-          apiUrl,
+          `${apiUrl}/api/auth/logout`,
           {},
           {
             headers: {
