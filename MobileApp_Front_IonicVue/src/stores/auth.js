@@ -14,14 +14,14 @@ export const useAuthStore = defineStore("auth", {
         const response = await axios.post(`${apiUrl}/api/auth/register`, {
           email: email,
           password: password,
-          username: username,
+          name: username,
         });
         //console.log(response.data);
 
         const user = response.data;
 
         this.loggedIn = true;
-        this.user = user.user;
+        this.user = user;
         localStorage.setItem("token", user.token);
       } catch (error) {
         throw error;
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore("auth", {
 
         this.loggedIn = true;
 
-        this.user = user.user;
+        this.user = user;
         localStorage.setItem("token", user.token);
         console.log(this.loggedIn);
 
