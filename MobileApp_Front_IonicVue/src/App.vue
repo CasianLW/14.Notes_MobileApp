@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import {
   IonMenu,
   IonHeader,
@@ -70,13 +70,17 @@ export default defineComponent({
   },
   setup() {
     const authStore = useAuthStore();
+    console.log(authStore.user);
+    console.log(authStore.loggedIn);
 
     function logout() {
       authStore.logout();
     }
 
+    const userIsAuthenticated = computed(() => authStore.loggedIn);
+
     return {
-      userIsAuthenticated: authStore.loggedIn,
+      userIsAuthenticated,
       logout,
     };
   },
