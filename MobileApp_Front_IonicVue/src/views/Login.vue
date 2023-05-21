@@ -13,10 +13,11 @@
       </ion-header>
 
       <ExploreContainer name="Login page" />
+
       <main>
         <h1>Login</h1>
 
-        <Error :error="error" :errors="errors" />
+        <div v-if="error" class="error">{{ errorMessage }}</div>
 
         <form @submit.prevent="login">
           <table border="0">
@@ -53,11 +54,9 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { ref, reactive, computed } from "vue";
-import { useVuelidate } from "@vuelidate/core";
-import { required, email, minLength } from "@vuelidate/validators";
-import { useAuthStore } from "../stores/auth.js";
+<script>
+import { ref } from "vue";
+import { useAuthStore } from "../stores/auth";
 import { useRouter } from "vue-router";
 import {
   IonPage,
@@ -67,61 +66,50 @@ import {
   IonContent,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
-import Error from "../components/Error.vue";
 
-interface Form {
-  email: string;
-  password: string;
-}
+export default {
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    ExploreContainer,
+  },
+  setup() {
+    const form = ref({
+      email: "",
+      password: "",
+    });
 
-const form: Form = reactive({
-  email: "",
-  password: "",
-});
+    const error = ref(false);
+    const errorMessage = ref("");
 
-const rules = computed(() => {
-  return {
-    email: { required, email },
-    password: { required, minLength: minLength(8) },
-  };
-});
+    const authStore = useAuthStore();
+    const router = useRouter();
 
-const v$ = useVuelidate(rules, form);
-
-interface Error {
-  $property: string;
-  $message: string;
-}
-
-const errors = ref<Error[]>([]);
-const error = computed(() => v$.$error);
-
-const authStore = useAuthStore();
-const router = useRouter();
-
-async function login() {
-  if (!v$.$pending) {
-    errors.value = [];
-    error.value = false;
-
-    if (!v$.$invalid) {
+    const login = async () => {
       try {
-        await authStore.login(form.email, form.password);
+        await authStore.login(form.value.email, form.value.password);
         router.push({ name: "account" });
-      } catch (err: any) {
+      } catch (err) {
         error.value = true;
-        errors.value.push({
-          $property: err.name,
-          $message: err.message,
-        });
+        errorMessage.value = err.message;
       }
-    } else {
-      v$.$resetValidation();
+    };
 
-      for (const key in form) {
-        form[key] = "";
-      }
-    }
-  }
-}
+    return {
+      form,
+      error,
+      errorMessage,
+      login,
+    };
+  },
+};
 </script>
+
+<style scoped>
+.error {
+  color: red;
+}
+</style>
