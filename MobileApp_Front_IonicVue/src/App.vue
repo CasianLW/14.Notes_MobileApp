@@ -54,7 +54,7 @@ import {
   IonButtons,
   IonMenuButton,
 } from "@ionic/vue";
-import { useAuthStore } from "../stores/auth.js";
+import { useAuthStore } from "@/stores/auth.js";
 
 export default defineComponent({
   components: {
