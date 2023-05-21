@@ -3,7 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
 
-const Dotenv = require("dotenv-webpack");
+import Dotenv from "dotenv-webpack";
 
 // https://vitejs.dev/config/
 export default defineConfig({
