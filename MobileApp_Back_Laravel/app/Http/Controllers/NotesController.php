@@ -41,11 +41,11 @@ class NotesController extends Controller
         $user = Auth::user();
 
         $note = new Note();
-        $note->content = $request->content;
+        $note->content = $request->input('content');
         $note->user_id = $user->id;
         $note->save();
 
-        return response()->json(['note' => $note], 201);
+        return response()->json(['note' => $note], 200);
     }
 
     
@@ -63,7 +63,7 @@ class NotesController extends Controller
         $note = Note::where('id', $id)->where('user_id', $user->id)->first();
 
         if ($note) {
-            $note->content = $request->content;
+            $note->content = $request->input('content');
             $note->save();
             return response()->json(['note' => $note], 200);
         }
