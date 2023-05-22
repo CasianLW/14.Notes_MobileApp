@@ -1,24 +1,15 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Login</ion-title>
-      </ion-toolbar>
-    </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Login</ion-title>
+          <ion-title class="ion-text-center" size="large">Login</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <!-- <ExploreContainer name="Login page" /> -->
 
       <main>
-        <h1>Login</h1>
-
-        <div v-if="error" class="error">{{ errorMessage }}</div>
-
         <form @submit.prevent="login">
           <ion-item>
             <ion-label position="stacked">Email:</ion-label>
@@ -53,9 +44,12 @@
 
           <ion-button expand="full" type="submit">Login</ion-button>
           <div class="ion-text-center" v-if="activeSpinner">
+            <br />
+            <br />
             <ion-spinner color="primary"></ion-spinner>
           </div>
         </form>
+        <div v-if="error" class="error ion-text-center">{{ errorMessage }}</div>
       </main>
     </ion-content>
   </ion-page>
@@ -158,9 +152,13 @@ export default {
         router.push({ path: "/home" });
       } catch (err) {
         error.value = true;
-        errorMessage.value = err.message;
+        console.log(err);
+        errorMessage.value = "Authenification échouée";
       }
       activeSpinner.value = false;
+      setTimeout(() => {
+        errorMessage.value = "";
+      }, 3000);
     });
 
     return {
