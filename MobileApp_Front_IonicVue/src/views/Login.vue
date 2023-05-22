@@ -12,7 +12,7 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Login page" />
+      <!-- <ExploreContainer name="Login page" /> -->
 
       <main>
         <h1>Login</h1>
@@ -20,34 +20,41 @@
         <div v-if="error" class="error">{{ errorMessage }}</div>
 
         <form @submit.prevent="login">
-          <table border="0">
-            <tbody>
-              <tr>
-                <td>Email:</td>
-                <td>
-                  <input
-                    type="text"
-                    size="20"
-                    v-model="form.email"
-                    autocomplete="username"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Password:</td>
-                <td>
-                  <input
-                    type="password"
-                    size="20"
-                    v-model="form.password"
-                    autocomplete="current-password"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <br />
-          <button type="submit">Login</button>
+          <ion-item>
+            <ion-label position="stacked">Email:</ion-label>
+            <Field name="email" :rules="emailRules">
+              <template #default="{ field }">
+                <ion-input
+                  type="text"
+                  v-bind="field"
+                  autocomplete="email"
+                ></ion-input>
+                <div v-if="field.value">
+                  <ErrorMessage name="email" />
+                </div>
+              </template>
+            </Field>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Password:</ion-label>
+            <Field name="password" :rules="passwordRules">
+              <template #default="{ field }">
+                <ion-input
+                  type="password"
+                  v-bind="field"
+                  autocomplete="current-password"
+                ></ion-input>
+                <div v-if="field.value">
+                  <ErrorMessage name="password" />
+                </div>
+              </template>
+            </Field>
+          </ion-item>
+
+          <ion-button expand="full" type="submit">Login</ion-button>
+          <div class="ion-text-center" v-if="activeSpinner">
+            <ion-spinner color="primary"></ion-spinner>
+          </div>
         </form>
       </main>
     </ion-content>
@@ -64,9 +71,16 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonSpinner,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
+import { useForm, Field, ErrorMessage } from "vee-validate";
+import { defineRule } from "vee-validate";
+import { required, min, email } from "@vee-validate/rules";
 
+defineRule("required", required);
+defineRule("email", email);
+defineRule("min", min);
 export default {
   components: {
     IonPage,
@@ -75,34 +89,43 @@ export default {
     IonTitle,
     IonContent,
     ExploreContainer,
+    Field,
+    ErrorMessage,
+    IonSpinner,
   },
   setup() {
-    const form = ref({
-      email: "",
-      password: "",
-    });
+    const activeSpinner = ref(false);
+    const { handleSubmit, resetForm, errors } = useForm();
 
     const error = ref(false);
     const errorMessage = ref("");
+    const emailRules = "required|email";
+    const passwordRules = "required|min:8";
 
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const login = async () => {
+    const login = handleSubmit(async (values) => {
+      activeSpinner.value = true;
       try {
-        await authStore.login(form.value.email, form.value.password);
+        await authStore.login(values.email, values.password);
         router.push({ path: "/home" });
       } catch (err) {
         error.value = true;
         errorMessage.value = err.message;
       }
-    };
+      activeSpinner.value = false;
+    });
 
     return {
-      form,
       error,
       errorMessage,
       login,
+      handleSubmit,
+      errors,
+      emailRules,
+      passwordRules,
+      activeSpinner,
     };
   },
 };
