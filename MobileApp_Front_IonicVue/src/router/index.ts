@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "@/stores/auth.js";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,6 +29,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/account",
+    name: "account",
+    component: () => import("../views/Account.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/notes",
     component: () => import("@/views/Notes.vue"),
     meta: {
@@ -52,14 +60,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const store = useAuthStore();
-
-  if (to.meta.requiresAuth && !store.isLoggedIn) {
+  if (to.meta.requiresAuth && !store.loggedIn) {
     return next({
       path: "/login",
     });
   }
 
-  if (to.meta.requiresGuest && store.isLoggedIn) {
+  if (to.meta.requiresGuest && store.loggedIn) {
     return next({
       path: "/home",
     });
