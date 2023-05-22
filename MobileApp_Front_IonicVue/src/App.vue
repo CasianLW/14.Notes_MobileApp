@@ -12,6 +12,7 @@
     </ion-header>
     <ion-content>
       <ion-list>
+        <ion-item router-link="/home">Home</ion-item>
         <ion-item v-if="!userIsAuthenticated" router-link="/login"
           >Login</ion-item
         >
@@ -32,7 +33,7 @@
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Notes</ion-title>
+        <ion-title>Notes App</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
