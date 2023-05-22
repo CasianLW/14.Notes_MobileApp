@@ -15,7 +15,8 @@
         <ion-item v-for="note in notes" :key="note.id">
           <p>{{ note.content }}</p>
           <ion-button @click="deleteNote(note.id)">Delete</ion-button>
-          <ion-button @click="updateNote(note.id, note)">Edit</ion-button>
+          <!-- <ion-button @click="updateNote(note.id, note)">Edit</ion-button> -->
+          <router-link :to="`/notes/${note.id}`">Edit</router-link>
         </ion-item>
       </ion-list>
     </ion-content>
