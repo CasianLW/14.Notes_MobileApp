@@ -74,13 +74,59 @@ import {
   IonSpinner,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
-import { useForm, Field, ErrorMessage } from "vee-validate";
-import { defineRule } from "vee-validate";
+import {
+  useForm,
+  Field,
+  ErrorMessage,
+  configure,
+  defineRule,
+} from "vee-validate";
 import { required, min, email } from "@vee-validate/rules";
+
+defineRule("customRequired", (value: string) => {
+  if (!value || value.trim() === "") {
+    return "Champ obligatoire";
+  }
+  return true;
+});
 
 defineRule("required", required);
 defineRule("email", email);
+defineRule("customEmail", (value: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!value || !emailRegex.test(value)) {
+    return "Entrez une adresse email valide";
+  }
+
+  return true;
+});
 defineRule("min", min);
+defineRule("password", (value: string) => {
+  if (!/(?=.*[A-Z])/.test(value)) {
+    return "Le mot de passe doit contenir au moins une lettre capitale";
+  }
+
+  return true;
+});
+
+configure({
+  generateMessage: (ctx) => {
+    const messages = {
+      customRequired: "Champ obligatoire",
+      customEmail: "Entrez une adresse email valide",
+      password: "Le mot de passe doit contenir au moins une lettre capitale",
+      required: "Ce champ est obligatoire",
+      min: "Le mot de passe doit avoir au moins 8 caractéres",
+      email: "Entrez une adresse email valide", // This is the custom message for the email rule
+    };
+
+    const messageKey = ctx.rule.name as keyof typeof messages;
+
+    return messages[messageKey] ?? "This field is invalid";
+  },
+});
+
 export default {
   components: {
     IonPage,
@@ -99,8 +145,8 @@ export default {
 
     const error = ref(false);
     const errorMessage = ref("");
-    const emailRules = "required|email";
-    const passwordRules = "required|min:8";
+    const emailRules = "customRequired|email";
+    const passwordRules = "required|min:8|password";
 
     const authStore = useAuthStore();
     const router = useRouter();
