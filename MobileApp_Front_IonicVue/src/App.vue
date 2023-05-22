@@ -28,6 +28,12 @@
         <ion-item
           @click="closeMenu"
           v-if="userIsAuthenticated"
+          router-link="/account"
+          >Account</ion-item
+        >
+        <ion-item
+          @click="closeMenu"
+          v-if="userIsAuthenticated"
           router-link="/notes"
           >Notes</ion-item
         >
