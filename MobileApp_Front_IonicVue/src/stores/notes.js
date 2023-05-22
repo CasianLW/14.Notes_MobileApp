@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
 
 const apiUrl = "https://api-app-notes-ajvs.onrender.com";
 
@@ -10,7 +11,12 @@ export const useNotesStore = defineStore("notes", {
   actions: {
     async fetchNotes() {
       try {
-        const response = await axios.get(`${apiUrl}/api/notes`);
+        const authStore = useAuthStore();
+        const response = await axios.get(`${apiUrl}/api/notes`, {
+          headers: {
+            Authorization: `Bearer ${authStore.user.token}`,
+          },
+        });
         this.notes = response.data;
       } catch (error) {
         console.error("Error fetching notes:", error);
@@ -18,7 +24,12 @@ export const useNotesStore = defineStore("notes", {
     },
     async createNote(newNote) {
       try {
-        const response = await axios.post(`${apiUrl}/api/notes`, newNote);
+        const authStore = useAuthStore();
+        const response = await axios.post(`${apiUrl}/api/notes`, newNote, {
+          headers: {
+            Authorization: `Bearer ${authStore.user.token}`,
+          },
+        });
         const createdNote = response.data;
         this.notes.push(createdNote);
       } catch (error) {
@@ -27,7 +38,12 @@ export const useNotesStore = defineStore("notes", {
     },
     async deleteNote(id) {
       try {
-        await axios.delete(`${apiUrl}/api/notes/${id}`);
+        const authStore = useAuthStore();
+        await axios.delete(`${apiUrl}/api/notes/${id}`, {
+          headers: {
+            Authorization: `Bearer ${authStore.user.token}`,
+          },
+        });
         this.notes = this.notes.filter((note) => note.id !== id);
       } catch (error) {
         console.error(`Error deleting note with id ${id}:`, error);
@@ -35,7 +51,12 @@ export const useNotesStore = defineStore("notes", {
     },
     async updateNote(id, updatedNote) {
       try {
-        await axios.put(`${apiUrl}/api/notes/${id}`, updatedNote);
+        const authStore = useAuthStore();
+        await axios.put(`${apiUrl}/api/notes/${id}`, updatedNote, {
+          headers: {
+            Authorization: `Bearer ${authStore.user.token}`,
+          },
+        });
         const index = this.notes.findIndex((note) => note.id === id);
         if (index !== -1) {
           this.notes[index] = { ...this.notes[index], ...updatedNote };
