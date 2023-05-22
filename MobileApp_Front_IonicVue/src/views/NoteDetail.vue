@@ -2,17 +2,16 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>NoteDetail</ion-title>
+        <ion-title>Edit Note</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">NoteDetail</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ExploreContainer name="NoteDetail page" />
+      <ion-item>
+        <ion-label position="floating">Edit Note</ion-label>
+        <ion-textarea v-model="note.content"></ion-textarea>
+        <ion-button @click="updateNote">Update Note</ion-button>
+      </ion-item>
+      <ion-button @click="goBack">Back to Notes</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -24,6 +23,43 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonItem,
+  IonLabel,
+  IonTextarea,
+  IonButton,
 } from "@ionic/vue";
-import ExploreContainer from "@/components/ExploreContainer.vue";
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useNotesStore } from "@/stores/notes";
+
+const notesStore = useNotesStore();
+const router = useRouter();
+const route = useRoute();
+const note = ref({ id: route.params.id, content: "" });
+
+onMounted(async () => {
+  const noteDetails = notesStore.notes.find(
+    (note) => note.id === route.params.id
+  );
+  if (noteDetails) {
+    note.value.content = noteDetails.content;
+  } else {
+    await notesStore.fetchNotes();
+    const fetchedNote = notesStore.notes.find(
+      (note) => note.id === route.params.id
+    );
+    if (fetchedNote) {
+      note.value.content = fetchedNote.content;
+    }
+  }
+});
+
+const updateNote = async () => {
+  await notesStore.updateNote(note.value.id, note.value);
+  router.push("/notes");
+};
+
+const goBack = () => {
+  router.push("/notes");
+};
 </script>
