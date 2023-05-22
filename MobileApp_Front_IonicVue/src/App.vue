@@ -73,6 +73,7 @@ import {
 import { useAuthStore } from "@/stores/auth.js";
 
 import { menuController } from "@ionic/vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -86,10 +87,13 @@ export default defineComponent({
     IonButtons,
     IonMenuButton,
   },
+
   setup() {
     const authStore = useAuthStore();
-    console.log(authStore.user);
-    console.log(authStore.loggedIn);
+    const router = useRouter();
+
+    // console.log(authStore.user);
+    // console.log(authStore.loggedIn);
 
     function closeMenu() {
       menuController.close();
@@ -98,6 +102,8 @@ export default defineComponent({
     function logout() {
       authStore.logout();
       closeMenu();
+      // router.push({ path: "/home" });
+      window.location.reload(); // Refresh the page
     }
     const userIsAuthenticated = computed(() => authStore.loggedIn);
 
