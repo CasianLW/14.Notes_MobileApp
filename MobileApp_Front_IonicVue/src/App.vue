@@ -12,14 +12,23 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item router-link="/home">Home</ion-item>
-        <ion-item v-if="!userIsAuthenticated" router-link="/login"
+        <ion-item @click="closeMenu" router-link="/home">Home</ion-item>
+        <ion-item
+          @click="closeMenu"
+          v-if="!userIsAuthenticated"
+          router-link="/login"
           >Login</ion-item
         >
-        <ion-item v-if="!userIsAuthenticated" router-link="/register"
+        <ion-item
+          @click="closeMenu"
+          v-if="!userIsAuthenticated"
+          router-link="/register"
           >Register</ion-item
         >
-        <ion-item v-if="userIsAuthenticated" router-link="/notes"
+        <ion-item
+          @click="closeMenu"
+          v-if="userIsAuthenticated"
+          router-link="/notes"
           >Notes</ion-item
         >
         <ion-item v-if="userIsAuthenticated" @click="logout">Logout</ion-item>
@@ -57,6 +66,8 @@ import {
 } from "@ionic/vue";
 import { useAuthStore } from "@/stores/auth.js";
 
+import { menuController } from "@ionic/vue";
+
 export default defineComponent({
   components: {
     IonMenu,
@@ -74,15 +85,20 @@ export default defineComponent({
     console.log(authStore.user);
     console.log(authStore.loggedIn);
 
-    function logout() {
-      authStore.logout();
+    function closeMenu() {
+      menuController.close();
     }
 
+    function logout() {
+      authStore.logout();
+      closeMenu();
+    }
     const userIsAuthenticated = computed(() => authStore.loggedIn);
 
     return {
       userIsAuthenticated,
       logout,
+      closeMenu,
     };
   },
 });
