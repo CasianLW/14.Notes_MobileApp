@@ -91,7 +91,7 @@ export default {
     const login = async () => {
       try {
         await authStore.login(form.value.email, form.value.password);
-        router.push({ name: "account" });
+        router.push({ path: "/home" });
       } catch (err) {
         error.value = true;
         errorMessage.value = err.message;
