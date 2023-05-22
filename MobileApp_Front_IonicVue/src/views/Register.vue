@@ -130,8 +130,7 @@ async function register() {
   try {
     console.log(values.username);
     await authStore.register(values.username, values.email, values.password);
-    console.log(values.username);
-    router.push({ name: "account" });
+    router.push({ path: "/home" });
   } catch (error) {
     if (error instanceof Error) {
       hasError.value = true;
