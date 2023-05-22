@@ -24,6 +24,7 @@
         <router-link to="/login">Login</router-link>
         <router-link to="/register">Register</router-link>
       </div>
+      <button @click="testUserStatus">Check user status</button>
     </ion-content>
   </ion-page>
 </template>
@@ -54,9 +55,14 @@ export default {
     const loggedIn = ref(authStore.loggedIn);
     const user = ref(authStore.user);
 
+    function testUserStatus() {
+      console.log(authStore.loggedIn);
+    }
+
     return {
       loggedIn,
       user,
+      testUserStatus,
     };
   },
 };
