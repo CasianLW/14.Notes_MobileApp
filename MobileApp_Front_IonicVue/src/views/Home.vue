@@ -2,29 +2,31 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Homepage</ion-title>
+        <ion-title class="ion-text-center">Homepage</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content class="ion-padding" :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Homepage</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 1 page" />
-
-      <div v-if="loggedIn">
-        <h1>Hello {{ user.user.name }}</h1>
-        Voici votre dashboard : <br />
-        vide.
+      <div class="ion-text-center" v-if="loggedIn">
+        <h1>Hello {{ user.user.name }},</h1>
+        <p>Voici votre dashboard :</p>
+        <ion-button router-link="/notes" expand="full"
+          >Voir vos notes</ion-button
+        >
+        <ion-button router-link="/account" fill="outline"
+          >Voir votre compte</ion-button
+        >
       </div>
 
-      <div v-else>
-        <router-link to="/login">Login</router-link>
-        <router-link to="/register">Register</router-link>
+      <div v-else class="ion-text-center">
+        <ion-button router-link="/login" expand="full">Login</ion-button>
+        <ion-button router-link="/register" expand="full">Register</ion-button>
       </div>
-      <button @click="testUserStatus">Check user status</button>
     </ion-content>
   </ion-page>
 </template>
@@ -37,6 +39,7 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonButton,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
 import { useAuthStore } from "@/stores/auth";
@@ -48,6 +51,7 @@ export default {
     IonToolbar,
     IonTitle,
     IonContent,
+    IonButton,
     ExploreContainer,
   },
   setup() {
@@ -68,6 +72,6 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Your component styles here */
-</style>
+<!-- <style scoped>
+
+</style> -->
