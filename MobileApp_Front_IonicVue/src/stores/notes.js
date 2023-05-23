@@ -65,5 +65,19 @@ export const useNotesStore = defineStore("notes", {
         console.error(`Error updating note with id ${id}:`, error);
       }
     },
+    async fetchNoteById(id) {
+      try {
+        const authStore = useAuthStore();
+        const response = await axios.get(`${apiUrl}/api/notes/${id}`, {
+          headers: {
+            Authorization: `Bearer ${authStore.user.token}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error(`Error fetching note with id ${id}:`, error);
+        return null;
+      }
+    },
   },
 });
