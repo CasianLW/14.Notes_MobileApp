@@ -1,9 +1,14 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
+      <!-- <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title class="ion-text-center" size="large">Login</ion-title>
+        </ion-toolbar>
+      </ion-header> -->
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="ion-text-center">Login</ion-title>
         </ion-toolbar>
       </ion-header>
 
