@@ -5,31 +5,48 @@
         <ion-title>Account</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-content class="ion-padding" :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Account</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Account page" />
-
       <main>
-        <h1>Account</h1>
+        <!-- <h1 class="ion-text-center">Account</h1> -->
 
-        <p>🔒 Connected user only</p>
+        <p class="ion-text-center" v-if="loggedIn">🔒 Connected user only</p>
 
-        <div v-if="loggedIn">
-          <h2>Connected user</h2>
+        <ion-card v-if="loggedIn">
+          <ion-card-content>
+            <ion-card-title class="ion-text-center"
+              >Connected User</ion-card-title
+            >
 
-          <ul>
-            <li>ID : {{ user.id }}</li>
-            <li>Username : {{ user.name }}</li>
-            <li>Email : {{ user.email }}</li>
-          </ul>
+            <ion-list>
+              <ion-item>
+                <ion-label>ID</ion-label>
+                <ion-note slot="end">{{ user.id }}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Username</ion-label>
+                <ion-note slot="end">{{ user.name }}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Email</ion-label>
+                <ion-note slot="end">{{ user.email }}</ion-note>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <div class="ion-text-center" v-else>
+          <p>You're not connected yet.</p>
+          <ion-button router-link="/login" expand="block">Login</ion-button>
+          <ion-button router-link="/register" expand="block"
+            >Register</ion-button
+          >
         </div>
-
-        <div v-else>You're not connected yet.</div>
       </main>
     </ion-content>
   </ion-page>
@@ -43,6 +60,14 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonCard,
+  IonCardTitle,
+  IonCardContent,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonButton,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
 import { useAuthStore } from "../stores/auth";
@@ -52,5 +77,8 @@ const user = computed(() => authStore.user.user);
 const loggedIn = computed(() => authStore.loggedIn);
 </script>
 
-<!-- <style scoped>
-  </style> -->
+<style scoped>
+ion-card {
+  margin-top: 20px;
+}
+</style>
