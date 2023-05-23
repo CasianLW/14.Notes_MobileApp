@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Register</ion-title>
+        <ion-title class="ion-text-center">Register</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
