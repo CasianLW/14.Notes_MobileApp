@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Account</ion-title>
+        <ion-title class="ion-text-center">Account</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding" :fullscreen="true">
