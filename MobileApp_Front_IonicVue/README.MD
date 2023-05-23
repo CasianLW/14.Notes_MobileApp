@@ -8,7 +8,12 @@
 
 ## Deploy on Netlify
 
-1.
+(if you have troubles with typescript just go to package.json and delete 'vue-tsc && ' from build script)
+
+### WAY 1
+
+1. `ionic build --prod` that will generate you the build files locally
+2. Go to netlify, select manual deploy and drag and rop the file generated ('dist' for me, 'www' for some)
 
 ## Project Steps
 
