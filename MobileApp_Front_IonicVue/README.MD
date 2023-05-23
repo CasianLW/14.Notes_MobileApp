@@ -15,6 +15,11 @@
 1. `ionic build --prod` that will generate you the build files locally
 2. Go to netlify, select manual deploy and drag and rop the file generated ('dist' for me, 'www' for some)
 
+### WAY 2
+
+1. Go to netlify, select deploy from existent source, link to your git repo
+2. Settings: /MobileApp_Front_IonicVue directory, command: npm run build
+
 ## Project Steps
 
 1. `ionic start` to start project (vue/tabs)
