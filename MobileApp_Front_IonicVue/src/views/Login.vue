@@ -25,6 +25,7 @@
                   v-bind="field"
                   autocomplete="email"
                 ></ion-input>
+
                 <div v-if="field.value">
                   <ErrorMessage name="email" />
                 </div>
@@ -54,6 +55,7 @@
             <ion-spinner color="primary"></ion-spinner>
           </div>
         </form>
+
         <div v-if="error" class="error ion-text-center">{{ errorMessage }}</div>
       </main>
     </ion-content>
@@ -71,6 +73,7 @@ import {
   IonTitle,
   IonContent,
   IonSpinner,
+  IonInput,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
 import {
@@ -137,6 +140,7 @@ export default {
     Field,
     ErrorMessage,
     IonSpinner,
+    IonInput,
   },
   setup() {
     const activeSpinner = ref(false);
