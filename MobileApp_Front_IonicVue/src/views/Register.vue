@@ -86,6 +86,7 @@ import {
   IonTitle,
   IonContent,
   IonSpinner,
+  IonInput,
 } from "@ionic/vue";
 import ExploreContainer from "@/components/ExploreContainer.vue";
 import {
@@ -152,6 +153,7 @@ export default {
     Field,
     ErrorMessage,
     IonSpinner,
+    IonInput,
   },
   setup() {
     const { handleSubmit, resetForm, errors } = useForm();
