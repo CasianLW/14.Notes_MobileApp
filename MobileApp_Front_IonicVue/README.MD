@@ -5,6 +5,7 @@
 1. Download project & unzip
 2. `npm install` to install dependencies
 3. `ionic serve` to run & test (you need to instal ionic cli if not already done that)
+4. Change API_URL into src/stores/auth & notes
 
 ## Deploy on Netlify
 
