@@ -71,6 +71,7 @@ export const useAuthStore = defineStore("auth", {
         this.loggedIn = false;
         this.user = {};
         localStorage.removeItem("token");
+        localStorage.clear(); // Clear all items in local storage
       } catch (error) {
         throw new Error(error.message);
       }
