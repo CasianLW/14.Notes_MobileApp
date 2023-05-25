@@ -102,8 +102,8 @@ export default defineComponent({
     function logout() {
       authStore.logout();
       closeMenu();
-      router.push({ path: "/" });
-      window.location.reload(); // Refresh the page
+      router.push({ path: "/logout" });
+      // window.location.reload(); // Refresh the page
     }
     const userIsAuthenticated = computed(() => authStore.loggedIn);
 
