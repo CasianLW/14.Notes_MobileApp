@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
     },
   },
+  {
+    path: "/:catchAll(.*)",
+    // component: () => import("@/views/Home.vue"),
+    redirect: "/",
+  },
 ];
 
 const router = createRouter({
