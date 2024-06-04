@@ -12,7 +12,7 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-item @click="closeMenu" router-link="/home">Home</ion-item>
+        <ion-item @click="closeMenu" router-link="/">Home</ion-item>
         <ion-item
           @click="closeMenu"
           v-if="!userIsAuthenticated"

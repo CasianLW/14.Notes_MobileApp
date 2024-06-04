@@ -158,7 +158,7 @@ export default {
       activeSpinner.value = true;
       try {
         await authStore.login(values.email, values.password);
-        router.push({ path: "/home" });
+        router.push({ path: "/" });
       } catch (err) {
         error.value = true;
         console.log(err);

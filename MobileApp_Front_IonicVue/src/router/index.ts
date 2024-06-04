@@ -3,15 +3,15 @@ import { RouteRecordRaw } from "vue-router";
 import { useAuthStore } from "@/stores/auth.js";
 
 const routes: Array<RouteRecordRaw> = [
+  // {
+  //   path: "/",
+  //   redirect: "/home",
+  //   meta: {
+  //     requiresAuth: true,
+  //   },
+  // },
   {
     path: "/",
-    redirect: "/home",
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: "/home",
     component: () => import("@/views/Home.vue"),
   },
   {
@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresGuest && store.loggedIn) {
     return next({
-      path: "/home",
+      path: "/",
     });
   }
 
