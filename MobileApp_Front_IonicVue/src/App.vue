@@ -103,7 +103,7 @@ export default defineComponent({
       authStore.logout();
       closeMenu();
       router.push({ path: "/logout" });
-      // window.location.reload(); // Refresh the page
+      window.location.reload(); // Refresh the page
     }
     const userIsAuthenticated = computed(() => authStore.loggedIn);
 
